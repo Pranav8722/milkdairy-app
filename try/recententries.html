@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milk Collection</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact us</a></li>
+                <li><a href="http://localhost/try/index.html">new_entry</a></li>
+                <li><a href="http://localhost/try/login.html">log-in</a></li>
+
+               
+                
+            </ul>
+        </nav>
+    </header>
+    <h1>Milk Collection</h1>
+
+    <!-- Search bar -->
+    <input type="text" id="search-bar" placeholder="Search by userid..." onkeyup="searchTable()">
+
+    <!-- Table to display recent entries -->
+    <table id="milk-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>User ID</th>
+                <th>Quantity (Litres)</th>
+                <th>Fat Content (%)</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table body will be populated dynamically using JavaScript -->
+        </tbody>
+    </table> <br>
+ <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=milk_collection&table=milk_records"><button type="submit">show-all</button>
+                </a> 
+    <script>
+        // Function to fetch recent entries and populate the table
+        function fetchRecentEntries() {
+            // Make an AJAX request to fetch data from the server
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'fetch_recent_entries.php', true);
+            xhr.onload = function () {
+                if (xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var tableBody = document.querySelector('#milk-table tbody');
+                    tableBody.innerHTML = ''; // Clear table body before populating
+
+                    // Iterate through each entry and create table rows
+                    response.forEach(function (entry) {
+                        var row = document.createElement('tr');
+                        row.innerHTML = '<td>' + entry.id + '</td>' +
+                            '<td>' + entry.username + '</td>' +
+                            '<td>' + entry.userid + '</td>' +
+                            '<td>' + entry.quantity + '</td>' +
+                            '<td>' + entry.fat_content + '</td>' +
+                            '<td>' + entry.price + '</td>' +
+                            '<td>' + entry.date + '</td>';
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    console.error('Request failed: ' + xhr.statusText);
+                }
+            };
+            xhr.send();
+        }
+
+        // Function to search the table based on username
+        function searchTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("search-bar");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("milk-table");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[2]; // Index 2 for usernid column
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Fetch recent entries when the page loads
+        window.onload = function () {
+            fetchRecentEntries();
+        };
+    </script>
+</body>
+</html>

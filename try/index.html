@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milk Collection</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script2.js"></script>
+    <script src="script.js"></script>
+    <!-- <script src="script3.js"></script> -->
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact us</a></li>
+                <li><a href="http://localhost/try/recententries.html">Records</a></li>
+                <li><a href="http://localhost/try/login.html">log-in</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+    <h1>Milk Collection</h1>
+    <form action="submit.php" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        
+        <label for="userid">User ID:</label>
+        <input type="text" id="userid" name="userid" required>
+
+        <label for="quantity">Quantity (Litres):</label>
+        <input type="number" id="quantity" name="quantity" required onchange="calculatePrice()">
+        
+        <label for="fat_content">Fat Content (%):</label>
+        <input type="number" id="fat_content" name="fat_content" required onchange="calculatePrice()">
+        
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price" readonly>
+        
+        <button type="submit">Submit</button>
+
+</form>
+</div>
+</body>
+</html>
